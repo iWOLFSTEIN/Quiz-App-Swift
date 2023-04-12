@@ -83,6 +83,10 @@ class ViewController: UIViewController {
                 }
                 answerField.isEnabled = false
                 correctAnswer.text = answersList[currentQuestion]
+                if currentQuestion == 4 {
+                    nextButton.setTitle("Answers", for: UIControl.State.normal)
+                    
+                }
             }
         }
         
@@ -94,11 +98,6 @@ class ViewController: UIViewController {
                 currentQuestion += 1
                 resetChanges()
                 loadQuestion(number: currentQuestion)
-                if currentQuestion == 4 {
-                    print("index is 4")
-                    nextButton.titleLabel!.text = "Answers"
-                    
-                }
             }
             else if currentQuestion == 4 {
                 currentQuestion = 0
@@ -122,6 +121,7 @@ class ViewController: UIViewController {
     }
     
     func resetChanges(){
+        nextButton.setTitle("Next", for: UIControl.State.normal)
         answerField.isEnabled = true
         correctAnswer.text = ""
         answerField.text = ""
