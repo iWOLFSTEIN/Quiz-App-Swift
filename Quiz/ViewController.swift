@@ -28,6 +28,8 @@ var answersList: [String] = ["13", "Islamabad", "Jinnah", "Python", "Smartphone"
 
 var currentQuestion: Int = 0
 
+var correctAnswersCount: Int = 0
+
 
 class ViewController: UIViewController {
 
@@ -60,7 +62,7 @@ class ViewController: UIViewController {
         
         
         answerField.delegate = self
-        
+                
         
         loadQuestion(number: currentQuestion)
         
@@ -74,10 +76,12 @@ class ViewController: UIViewController {
             if !answerField.text!.isEmpty {
                 if answer == answersList[currentQuestion] {
                     checkButton.backgroundColor = .green
+                    correctAnswersCount += 1
                 }
                 else {
                     checkButton.backgroundColor = .red
                 }
+                answerField.isEnabled = false
                 correctAnswer.text = answersList[currentQuestion]
             }
         }
@@ -88,12 +92,23 @@ class ViewController: UIViewController {
         if !correctAnswer.text!.isEmpty{
             if currentQuestion < 4 {
                 currentQuestion += 1
-                correctAnswer.text = ""
-                answerField.text = ""
-                checkButton.backgroundColor = UIColor(red: 254/255, green: 255/255, blue: 134/255, alpha: 1.0)
+                resetChanges()
                 loadQuestion(number: currentQuestion)
+                if currentQuestion == 4 {
+                    print("index is 4")
+                    nextButton.titleLabel!.text = "Answers"
+                    
+                }
             }
-          
+            else if currentQuestion == 4 {
+                currentQuestion = 0
+                resetChanges()
+                loadQuestion(number: currentQuestion)
+                resultText.text = "\(correctAnswersCount) out of \(questionsList.count)"
+                resultText.isHidden = false
+                resultLabel.isHidden = false
+                
+            }
         }
         
     }
@@ -104,6 +119,15 @@ class ViewController: UIViewController {
         option2.text = questionsList[index].option2
         option3.text = questionsList[index].option3
         option4.text = questionsList[index].option4
+    }
+    
+    func resetChanges(){
+        answerField.isEnabled = true
+        correctAnswer.text = ""
+        answerField.text = ""
+        checkButton.backgroundColor = UIColor(red: 254/255, green: 255/255, blue: 134/255, alpha: 1.0)
+        resultLabel.isHidden = true
+        resultText.isHidden = true
     }
 }
 
